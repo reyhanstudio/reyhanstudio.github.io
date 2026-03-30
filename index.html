@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Reyhan Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+  <div class="logo-wrapper">
+    <img src="logo.png" alt="Logo Reyhan Studio">
+  </div>
+  <h1>Reyhan Studio</h1>
+</div>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav id="nav">
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#portfolio" onclick="closeMenu()">Portfolio</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <h2>Website <span>Profesional</span> untuk Bisnis Anda</h2>
+  <p>Membantu UMKM & bisnis online berkembang secara digital</p>
+  <a href="#contact" class="btn">Hubungi Saya</a>
+</section>
+
+<section id="about" class="fade-in">
+  <h2>Tentang Saya</h2>
+  <p>
+    Saya adalah web developer dari Reyhan Studio yang fokus membuat website modern,
+    cepat, dan profesional untuk membantu bisnis berkembang.
+  </p>
+</section>
+
+<section id="portfolio">
+  <h2>Portfolio</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>Wijaya Frozen Food</h3>
+      <p>Website e-commerce dengan sistem cart & checkout modern.</p>
+    </div>
+
+    <div class="card">
+      <h3>Landing Page UMKM</h3>
+      <p>Website promosi cepat dan responsif untuk bisnis kecil.</p>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact" class="fade-in">
+  <h2>Kontak</h2>
+  <p>WhatsApp: 085123522907</p>
+  <p>Email: reyhanstudio.id@gmail.com</p>
+  <a href="https://wa.me/6285123522907" class="btn">Chat WhatsApp</a>
+</section>
+
+<footer>
+  <p>© 2026 Reyhan Studio</p>
+</footer>
+
+<script>
+  // Animasi scroll
+  const faders = document.querySelectorAll('.fade-in');
+
+  window.addEventListener('scroll', () => {
+    faders.forEach(el => {
+      const top = el.getBoundingClientRect().top;
+      if (top < window.innerHeight - 100) {
+        el.classList.add('show');
+      }
+    });
+  });
+  
+</script>
+<script>
+function toggleMenu() {
+  document.getElementById("nav").classList.toggle("active");
+}
+</script>
+<script>
+function toggleMenu() {
+  document.getElementById("nav").classList.toggle("active");
+}
+
+function closeMenu() {
+  document.getElementById("nav").classList.remove("active");
+}
+</script>
+</body>
+</html>
