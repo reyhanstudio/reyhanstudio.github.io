@@ -1,0 +1,934 @@
+/* VARIABEL TEMA & RESET DASAR */
+:root {
+    --bg-dark: #121212;
+    --gold: #D4AF37;
+    --gold-light: #F3E5AB;
+    --text-light: #F5F5F5;
+    --text-muted: #A0A0A0;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+/* EFEK SCROLL MULUS (Ini kuncinya biar transisi antar section enak dilihat) */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+.gold-text {
+    color: var(--gold);
+    font-family: var(--font-heading);
+}
+
+/* =========================================
+   REVISI 1: STYLING HEADER & NAVIGASI
+   ========================================= */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%; /* Sedikit dikompres paddingnya */
+    background-color: rgba(18, 18, 18, 0.98);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Kontainer Logo */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Jarak antara gambar logo dan teks */
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.logo-container:hover {
+    transform: scale(1.03);
+}
+
+/* Gambar Logo di Navbar */
+.navbar-logo {
+    height: 35px; /* Tinggi logo dibikin kecil pas */
+    width: auto;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Teks reyhanstudio di samping logo */
+.logo-text {
+    font-family: var(--font-body); /* Pakai Poppins, bukan font heading */
+    color: var(--gold-light);
+    font-size: 1rem; /* Ukurannya kecil menyesuaikan logo */
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    text-transform: lowercase; /* Dipaksa jadi huruf kecil semua */
+}
+
+/* Sisa gaya nav dan menu-toggle tetap sama dengan yang kemarin, nggak perlu diganti */
+nav ul.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+/* Styling untuk Menu Navigasi yang sedang Aktif (Scrollspy) */
+nav ul.nav-list li a.active-link {
+    color: var(--gold);
+    /* Opsional: kasih garis bawah kecil biar makin jelas */
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 3px;
+}
+
+nav a {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--gold);
+}
+
+.btn-primary {
+    background-color: var(--gold);
+    color: var(--bg-dark);
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+/* MENU HAMBURGER ICON (Disembunyikan di Desktop) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--gold);
+    transition: all 0.3s ease-in-out;
+}
+
+/* HERO SECTION & DUMMY SECTION */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 5% 0; /* Padding top ditambah biar gak ketutup navbar fixed */
+}
+
+.hero-logo {
+    max-width: 200px;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.5));
+}
+
+.hero h1 { font-size: 3.5rem; letter-spacing: 2px; }
+.hero .subtitle { color: var(--gold-light); font-size: 1.2rem; margin-bottom: 1rem; }
+.hero .description { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+/* Dummy Section untuk ngetes scroll */
+.dummy-section {
+    min-height: 80vh;
+    padding: 100px 5%;
+    border-bottom: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================
+   STYLING PORTFOLIO SECTION
+   ========================================= */
+.portfolio-section {
+    padding: 100px 5% 50px; /* Jarak atas bawah yang lega */
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ini keajaiban CSS Grid! */
+.portfolio-grid {
+    display: grid;
+    /* auto-fit dan minmax ini yang bikin dia responsive otomatis ke HP/Laptop */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 2rem; /* Jarak antar kotak */
+}
+
+.portfolio-card {
+    background-color: #1a1a1a; /* Sedikit lebih terang dari background utama */
+    border: 1px solid rgba(212, 175, 55, 0.1); /* Garis luar emas tipis */
+    border-radius: 8px; /* Sudut membulat */
+    overflow: hidden; /* Biar gambar gak keluar jalur kotak */
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efek saat card disorot mouse */
+.portfolio-card:hover {
+    transform: translateY(-10px); /* Kartu naik sedikit */
+    border-color: var(--gold);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.card-image {
+    height: 200px;
+    background-color: #252525; /* Warna abu-abu buat tempat naruh gambar nanti */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Buat nyesuain gambar lu nanti kalau udah dimasukin */
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Biar gambar gak gepeng */
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-content h3 {
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+}
+
+.card-content p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    min-height: 65px; /* Biar tinggi tombol seragam walau teks beda panjang */
+}
+
+/* Tombol transparan (Outline) */
+.btn-outline {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    background-color: var(--gold);
+    color: var(--bg-dark);
+}
+/* =========================================
+   STYLING JOURNEY SECTION (Timeline)
+   ========================================= */
+.journey-section {
+    padding: 100px 5% 50px;
+    background-color: #0f0f0f; /* Warnanya dibikin sedikit lebih gelap dari background utama biar ada pemisah visual */
+}
+
+/* Kita pakai CSS Grid lagi biar kotaknya otomatis rapi di HP dan Laptop */
+.timeline-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.timeline-box {
+    background-color: #1a1a1a;
+    padding: 2.5rem 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border-top: 3px solid var(--gold); /* Garis emas di atas kotak biar elegan */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border-top: 3px solid var(--gold-light);
+}
+
+.timeline-icon {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+}
+
+.timeline-box h3 {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+}
+
+.timeline-box p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   REVISI 2: STYLING SERVICES SECTION
+   ========================================= */
+.services-section {
+    padding: 100px 5% 80px; /* Jarak ruang kosong: 100px atas, 5% kiri-kanan, 80px bawah */
+}
+
+/* 1. MENGATUR GRID (Kotak-kotaknya) */
+.pricing-grid {
+    display: grid;
+    /* Ini rahasia responsifnya! Minimal lebar kotak 300px, maksimal seukuran sisa layar (1fr) */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 2rem; /* Jarak antar kotak sebesar 2rem */
+    margin-top: 3rem;
+}
+
+/* 2. MENGATUR DESAIN KARTU (Background & Efek) */
+.category-card {
+    background-color: #1a1a1a; /* Warna abu-abu sangat gelap */
+    border: 1px solid rgba(212, 175, 55, 0.1); /* Garis luar emas tipis/pudar */
+    border-radius: 8px; /* Ujung kotak dibikin tumpul */
+    padding: 2.5rem 2rem;
+    transition: transform 0.3s ease, border-color 0.3s ease; /* Animasi mulus selama 0.3 detik */
+}
+
+/* Efek saat mouse diarahkan ke kotak (Hover) */
+.category-card:hover {
+    transform: translateY(-5px); /* Kotak naik sedikit seolah melayang */
+    border-color: var(--gold); /* Garis luar emasnya jadi nyala terang */
+}
+
+/* 3. MENGATUR JUDUL KARTU (Misal: Kategori Pelajar) */
+.category-card h3 {
+    color: var(--text-light);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Jarak antara ikon dan tulisan judul */
+}
+
+/* 4. MENGATUR INFO LEVEL PAKET (Misal: 3 Level Paket: Basic...) */
+.category-info {
+    color: var(--gold); /* Teks diwarnai emas agar jadi daya tarik */
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Garis pemisah tipis warna putih transparan */
+}
+
+/* 5. MENGATUR LIST FITUR (Checklist) */
+.category-card ul.features {
+    list-style: none; /* Menghilangkan titik hitam default dari HTML */
+    margin-bottom: 2rem;
+}
+
+.category-card ul.features li {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--text-muted); /* Teks diwarnai abu-abu */
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Jarak antara ikon checklist dan teks fitur */
+}
+
+.category-card ul.features li i {
+    color: var(--gold); /* Ikon checklist diwarnai emas */
+    font-size: 1.1rem;
+}
+/* =========================================
+   STYLING FOOTER
+   ========================================= */
+footer {
+    background-color: #050505; /* Paling gelap */
+    padding-top: 4rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.footer-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* Bikin logo datar lu jadi lingkaran */
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 2px solid var(--gold);
+}
+
+.social-links {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    transition: 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--gold);
+    transform: translateY(-3px);
+}
+
+.contact-email {
+    color: var(--gold-light);
+    margin-bottom: 2rem;
+}
+
+.footer-bottom {
+    background-color: #000;
+    padding: 1.5rem 0;
+    color: #666;
+    font-size: 0.8rem;
+}
+/* =========================================
+   STYLING MODAL / POPUP KARTU NGAMBANG
+   ========================================= */
+.modal-overlay {
+    display: none; /* Disembunyikan secara default */
+    position: fixed;
+    z-index: 2000; /* Paling depan menutupi segalanya */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Latar belakang gelap transparan */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 900px; /* Lebar maksimal */
+    padding: 2rem;
+    position: relative;
+    max-height: 90vh; /* Biar gak bablas ke bawah layar */
+    overflow-y: auto; /* Kalau kepanjangan, bisa discroll di dalam popup */
+    animation: fadeIn 0.3s ease; /* Animasi muncul */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: var(--text-muted);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--gold);
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* MEMAKSA 3 KOLOM HORIZONTAL */
+    gap: 1.5rem;
+}
+
+.modal-card {
+    background-color: #1a1a1a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-card h4 {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.modal-card .price {
+    color: var(--gold);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.modal-card ul {
+    list-style: none;
+}
+
+.modal-card ul li {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    padding-left: 15px;
+    position: relative;
+}
+
+/* Bikin custom bullet point kecil warna emas */
+.modal-card ul li::before {
+    content: "•";
+    color: var(--gold);
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+/* =========================================
+   STYLING TOMBOL & CTA DALAM MODAL
+   ========================================= */
+.btn-full {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    box-sizing: border-box; /* Biar tombol gak luber ngelewatin kotak */
+}
+
+/* Biar background outline transparan saat dipake di link <a> */
+a.btn-outline, button.btn-outline {
+    background-color: transparent;
+}
+
+/* Grup CTA atas bawah */
+.modal-cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Jarak antara tombol atas dan bawah */
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(212, 175, 55, 0.2);
+}
+
+/* Tombol Pesan Sekarang (WhatsApp) */
+.btn-wa {
+    background-color: var(--gold);
+    color: var(--bg-dark);
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+}
+
+.btn-wa:hover {
+    background-color: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+/* Tombol Info Paket Lengkap (Instagram) */
+.btn-ig {
+    background-color: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+}
+
+.btn-ig:hover {
+    background-color: rgba(212, 175, 55, 0.1);
+    color: var(--gold-light);
+    transform: translateY(-2px);
+}
+/* =========================================
+   STYLING CONTACT / FOOTER (REVISI FULL WIDTH)
+   ========================================= */
+.footer-section {
+    background-color: #0a0a0a; 
+    /* Padding kiri-kanan & bawah dihapus biar footer-bottom bisa full width */
+    padding: 60px 0 0; 
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 2.5rem; 
+    margin-bottom: 40px;
+    max-width: 600px; 
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 5%; /* Padding 5% dipindah ke sini biar teks aman nggak nempel layar */
+}
+
+.footer-brand, .footer-info, .footer-social {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+/* Style Logo Polos Tanpa Frame */
+.footer-logo {
+    width: 150px; 
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    filter: none; 
+}
+
+.footer-brand p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    max-width: 400px; 
+}
+
+.footer-info h4, .footer-social h4 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center; 
+}
+
+.contact-item i {
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.contact-item a {
+    color: var(--text-light);
+    transition: 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: var(--gold);
+}
+
+/* Styling Ikon Sosmed */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    justify-content: center; 
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px; 
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-light);
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background-color: var(--gold);
+    color: var(--bg-dark);
+    transform: translateY(-3px);
+    border-color: var(--gold);
+}
+
+/* 🟢 REVISI COPYRIGHT: BIAR FULL NUTUP BAWAH LAYAR 🟢 */
+.footer-bottom {
+    width: 100%;
+    background-color: #000000; /* Hitam pekat sebagai penutup dasar */
+    text-align: center;
+    padding: 20px 5%; /* Jarak atas-bawah yang pas */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* =========================================
+   STYLING SECTION PROMO
+   ========================================= */
+.promo-section {
+    padding: 80px 5%;
+    background-color: #0d0d0d; /* Sedikit lebih gelap dari background utama biar kontras */
+    border-top: 1px dashed rgba(212, 175, 55, 0.2);
+    border-bottom: 1px dashed rgba(212, 175, 55, 0.2);
+}
+
+.promo-card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid var(--gold);
+    border-radius: 15px;
+    padding: 40px 30px;
+    max-width: 450px;
+    margin: 0 auto; /* Bikin posisinya tepat di tengah */
+    position: relative;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
+}
+
+/* Label Merah "Flash Sale" di atas kotak */
+.promo-badge {
+    background-color: #e63946;
+    color: #ffffff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+}
+
+/* Styling Harga Coret */
+.price-container {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #e63946; /* Warna merah biar kelihatan jelas dicoretnya */
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.new-price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* List Fitur Promo */
+.promo-features {
+    list-style: none;
+    text-align: left;
+    margin: 25px auto 35px;
+    max-width: 320px;
+}
+
+.promo-features li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.promo-features li i {
+    color: var(--gold);
+    font-size: 1.1rem;
+}
+
+/* Tombol Promo dengan Animasi Kedap-Kedip */
+.promo-btn {
+    font-size: 1.05rem;
+    padding: 15px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    animation: pulse-gold 2s infinite; /* Panggil animasi di sini */
+}
+
+.promo-terms {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 15px;
+    font-style: italic;
+}
+
+/* Animasi cahaya berkedip biar tombolnya narik perhatian */
+@keyframes pulse-gold {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
+    70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+/* Container untuk menampung dua kartu promo */
+.promo-grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.promo-card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 15px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 380px; /* Lebar maksimal tiap kartu */
+    position: relative;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Card yang di-highlight (UMKM) dibikin agak gedean */
+.featured-promo {
+    border: 1px solid var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+    transform: scale(1.05);
+}
+
+/* Warna badge untuk Pelajar Baru */
+.green-badge {
+    background-color: #2a9d8f !important;
+}
+
+/* Ukuran teks khusus kartu pelajar */
+.promo-card h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.promo-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+/* Penyesuaian tombol kecil untuk kartu pelajar */
+.promo-btn-sm {
+    padding: 12px !important;
+    font-size: 0.9rem !important;
+    margin-top: 10px;
+}
+
+/* Responsif untuk HP */
+@media (max-width: 768px) {
+    .promo-grid-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .featured-promo {
+        transform: scale(1); /* Di HP nggak usah digedein biar nggak luber */
+    }
+}
+
+/* =========================================
+   RESPONSIVE DESIGN UPDATE (PENTING)
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* PASTE KODENYA DI SINI BRO: Bikin grid di dalam popup turun jadi 1 kolom berjejer ke bawah kalau di HP */
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Munculkan Hamburger Icon */
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Ubah layout menu jadi vertikal dan sembunyikan ke atas */
+    nav ul.nav-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(18, 18, 18, 0.98);
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 0;
+        gap: 1.5rem;
+        transform: translateY(-150%); /* Sembunyiin menu ke luar layar atas */
+        transition: transform 0.3s ease-in-out;
+        border-bottom: 1px solid var(--gold);
+        z-index: 999;
+    }
+
+    /* Class ini ditambahin oleh JavaScript saat ikon diklik */
+    nav ul.nav-list.active {
+        transform: translateY(0); /* Munculin menu */
+    }
+
+    /* Sembunyikan tombol Hubungi Kami di header (karena layarnya sempit) */
+    .desktop-only {
+        display: none;
+    }
+
+    /* Animasi ikon hamburger berubah jadi tanda silang (X) */
+    .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* Sesuaikan ukuran font di HP biar gak kegedean */
+    .hero h1 { font-size: 2.5rem; }
+    .hero-logo { max-width: 150px; }
+}
